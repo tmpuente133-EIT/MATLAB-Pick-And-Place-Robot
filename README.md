@@ -21,55 +21,48 @@ Rather than focusing on low-level mechanics, this project emphasizes **planning 
 ## Key Implementation Highlights
 
 ### 1) Robot Import & Collision Modeling
- **Screenshot 1 — Robot setup and collision geometry**
+ **Figure 1 — Robot setup and collision geometry**
+ 
+ <img src= "images/loadrobot.jpg" alt="loadrobot" width="400">
 
 > This section shows how the KUKA iiwa robot is imported and augmented with simplified collision geometries.  
 > Custom collision shapes are assigned to the robot links to enable fast and reliable collision checking during planning, independent of visual meshes.
 
-**Screenshot includes:**
-- Robot import
-- Collision object assignment
-- Gravity and kinematic setup
-
 ---
 
 ### 2) Collision-Safe Pick & Place Logic
- **Screenshot 2 — IK-based pick and place configuration**
+ **Figure 2 — IK-based pick and place configuration**
+ 
+<img src= "images/pickpose.jpg" alt="pickpose" width="400">
 
 > This section highlights the inverse kinematics workflow used to compute feasible pick and place configurations.  
 > A collision-aware search strategy is used to find the closest valid placement when the user’s requested target is not directly reachable.
 
-**Screenshot includes:**
-- Pick pose definition above the object
-- User-selected target position
-- Collision-checked place configuration search
-
 ---
 
 ### 3) RRT Motion Planning & Execution
- **Screenshot 3 — RRT planning and execution**
+ **Figure 3 — RRT planning and execution**
+ 
+<img src= "images/Screenshot%202026-02-01%20175812.png" alt="pickpose" width="400">
 
 > This section demonstrates how a Rapidly-exploring Random Tree (RRT) planner is used to generate collision-free joint-space trajectories.  
 > Separate plans are generated for the **Home → Pick** and **Pick → Place** motions, which are then concatenated into a single smooth trajectory.
-
-**Screenshot includes:**
-- RRT planner setup
-- Path planning calls
-- Trajectory smoothing and execution logic
 
 ---
 
 ## System Demonstration
 
- **Screen Recording — Full Pick-and-Place Execution**
-
-The video below shows the robot executing the full task:
+The video shows the robot executing the full task:
 - Moving from home configuration
 - Picking one of two objects
 - Transporting the object while avoiding obstacles
 - Placing the object at the target location
 
-> *(Embedded video or link to recording here)*
+<a href="https://youtu.be/Xx_lmXefTAo" target="_blank">
+  <img src="images/robot.png" alt="pickpose" width="400">
+</a>
+
+*Click the image to watch the full collision-aware pick-and-place demonstration.*
 
 ---
 
@@ -81,8 +74,6 @@ The video below shows the robot executing the full task:
 - Collision checking  
 - RRT motion planning  
 - Trajectory interpolation and visualization
-
----
 
 ## Outcome
 
