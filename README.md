@@ -1,128 +1,89 @@
-# Autonomous Pick-and-Place Robot with Obstacle Avoidance
+# KUKA iiwa Collision-Aware Pick-and-Place
 
-## Overview
-This repository documents the design, implementation, and simulation of an autonomous robotic manipulator capable of picking and placing objects in a cluttered environment while avoiding obstacles. The project was developed using MATLAB and the Robotics System Toolbox as part of an advanced robot modeling and control course.
+This project demonstrates a **collision-aware pick-and-place task** using a KUKA iiwa robot model.  
+The system integrates **inverse kinematics (IK)**, **environment collision modeling**, and **RRT-based motion planning** to autonomously move objects between platforms while avoiding obstacles.
 
----
-
-## Problem Statement
-Industrial and service robots must be able to autonomously manipulate objects in environments that contain obstacles and user-defined goals. The objective of this project was to develop a robotic manipulation system that can safely pick up objects and place them at arbitrary target locations specified by the user, provided those locations lie within the robot’s reachable workspace. The robot must detect unreachable targets, plan collision-free trajectories, and execute reliable pick-and-place motions without human intervention.
+A short screen recording of the system running is included below, along with highlighted code excerpts that illustrate the core implementation.
 
 ---
 
-## Project Objectives
-- Import and configure a realistic robot manipulator model
-- Create a simulated environment with obstacles and movable objects
-- Implement inverse kinematics for grasping and placement
-- Plan collision-free trajectories using sampling-based motion planning
-- Enable user-defined placement goals with workspace validation
-- Visualize and animate the full pick-and-place process
+## Project Overview
+
+The goal of this project was to design a motion-planning pipeline that allows a robotic manipulator to:
+1. Identify and reach a pick object
+2. Safely transport the object through a cluttered workspace
+3. Place the object at a user-defined target location without collisions
+
+Rather than focusing on low-level mechanics, this project emphasizes **planning logic, collision reasoning, and system integration**.
 
 ---
 
-## System Description
+## Key Implementation Highlights
 
-### Robot Model
-- Robot imported using MATLAB’s `loadrobot` function
-- Full URDF-based kinematic structure
-- Custom collision geometry added to each link
+### 1) Robot Import & Collision Modeling
+ **Screenshot 1 — Robot setup and collision geometry**
 
-📌 *Add image here:*  
-`![Robot model visualization](media/robot_model.png)`
+> This section shows how the KUKA iiwa robot is imported and augmented with simplified collision geometries.  
+> Custom collision shapes are assigned to the robot links to enable fast and reliable collision checking during planning, independent of visual meshes.
 
----
-
-### Environment Setup
-- Static environment composed of a floor and two platforms
-- Obstacles modeled using collision primitives
-- Two movable box objects placed on platforms
-
-📌 *Add image here:*  
-`![Simulation environment](media/environment.png)`
+**Screenshot includes:**
+- Robot import
+- Collision object assignment
+- Gravity and kinematic setup
 
 ---
 
-## Motion Planning and Control Architecture
+### 2) Collision-Safe Pick & Place Logic
+ **Screenshot 2 — IK-based pick and place configuration**
 
-### Inverse Kinematics
-- Numerical inverse kinematics used to compute joint configurations
-- Pre-grasp, grasp, pre-place, and place poses defined in task space
-- Workspace checks implemented to reject unreachable goals
+> This section highlights the inverse kinematics workflow used to compute feasible pick and place configurations.  
+> A collision-aware search strategy is used to find the closest valid placement when the user’s requested target is not directly reachable.
 
-📌 *Relevant code:*  
-`src/kinematics/computeIK.m`
-
----
-
-### Trajectory Planning
-- Sampling-based motion planning using `manipulatorRRT`
-- Collision checking against environment and objects
-- Straight-line interpolation used for precision near grasp and placement
-
-📌 *Relevant code:*  
-`src/planning/planPath.m`
+**Screenshot includes:**
+- Pick pose definition above the object
+- User-selected target position
+- Collision-checked place configuration search
 
 ---
 
-### Obstacle Avoidance
-- All robot motions validated against collision geometry
-- Objects treated as obstacles until grasped
-- Dynamic update of obstacles during object transport
+### 3) RRT Motion Planning & Execution
+ **Screenshot 3 — RRT planning and execution**
 
-📌 *Relevant code:*  
-`src/planning/checkCollisionWrapper.m`
+> This section demonstrates how a Rapidly-exploring Random Tree (RRT) planner is used to generate collision-free joint-space trajectories.  
+> Separate plans are generated for the **Home → Pick** and **Pick → Place** motions, which are then concatenated into a single smooth trajectory.
 
----
-
-## Pick-and-Place Workflow
-1. Plan path from home position to pre-grasp pose
-2. Execute controlled approach to grasp the object
-3. Attach object to end-effector
-4. Plan collision-free path to target platform
-5. Place object and retreat safely
-
-📌 *Add animation or GIF here:*  
-`![Pick-and-place animation](media/pick_and_place.gif)`
+**Screenshot includes:**
+- RRT planner setup
+- Path planning calls
+- Trajectory smoothing and execution logic
 
 ---
 
-## User Interaction
-- User specifies target position in Cartesian space
-- System validates reachability and collision feasibility
-- Clear error messages returned for invalid targets
+## System Demonstration
 
-📌 *Relevant code:*  
-`src/interface/userInputHandler.m`
+ **Screen Recording — Full Pick-and-Place Execution**
 
----
+The video below shows the robot executing the full task:
+- Moving from home configuration
+- Picking one of two objects
+- Transporting the object while avoiding obstacles
+- Placing the object at the target location
 
-## Challenges and Solutions
-- **Collision geometry misalignment:** resolved by iterative tuning and frame verification  
-- **Unreachable IK targets:** mitigated using workspace checks and goal regions  
-- **RRT planning failures:** addressed by adjusting planner parameters and adding intermediate waypoints  
-- **Object handling during motion:** solved by dynamically switching object roles between obstacle and payload  
+> *(Embedded video or link to recording here)*
 
 ---
 
-## Results
-- Successful autonomous pick-and-place of multiple objects
-- Reliable obstacle avoidance in cluttered environments
-- Robust response to valid and invalid user inputs
+## Tools & Concepts Used
 
-📌 *Add results plot or screenshot:*  
-`![Final placement result](media/final_result.png)`
+- MATLAB Robotics System Toolbox  
+- RigidBodyTree modeling  
+- Inverse kinematics  
+- Collision checking  
+- RRT motion planning  
+- Trajectory interpolation and visualization
 
 ---
 
-## Repository Structure
-```text
-.
-├── src/
-│   ├── robot/          # Robot import and collision setup
-│   ├── environment/    # Environment and object definitions
-│   ├── kinematics/     # Inverse kinematics algorithms
-│   ├── planning/       # RRT and trajectory planning
-│   └── interface/      # User input handling
-├── media/              # Images, GIFs, and videos
-├── scripts/            # Main execution scripts
-└── README.md
+## Outcome
+
+This project demonstrates a complete, collision-aware robotic manipulation pipeline and illustrates how high-level planning algorithms can be combined with kinematic modeling to produce reliable autonomous behavior in a constrained environment.
