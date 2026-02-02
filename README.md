@@ -25,8 +25,7 @@ Rather than focusing on low-level mechanics, this project emphasizes **planning 
  
  <img src= "images/loadrobot.jpg" alt="loadrobot" width="400">
 
-> This section shows how the KUKA iiwa robot is imported and augmented with simplified collision geometries.  
-> Custom collision shapes are assigned to the robot links to enable fast and reliable collision checking during planning, independent of visual meshes.
+ This section shows how the KUKA iiwa robot is imported and augmented with simplified collision geometries.Custom collision shapes are assigned to the robot links to enable fast and reliable collision checking during planning, independent of visual meshes.
 
 ---
 
@@ -35,8 +34,7 @@ Rather than focusing on low-level mechanics, this project emphasizes **planning 
  
 <img src= "images/pickpose.jpg" alt="pickpose" width="400">
 
-> This section highlights the inverse kinematics workflow used to compute feasible pick and place configurations.  
-> A collision-aware search strategy is used to find the closest valid placement when the user’s requested target is not directly reachable.
+ This section highlights the inverse kinematics workflow used to compute feasible pick and place configurations. A collision-aware search strategy is used to find the closest valid placement when the user’s requested target is not directly reachable.
 
 ---
 
@@ -45,8 +43,7 @@ Rather than focusing on low-level mechanics, this project emphasizes **planning 
  
 <img src= "images/Screenshot%202026-02-01%20175812.png" alt="pickpose" width="400">
 
-> This section demonstrates how a Rapidly-exploring Random Tree (RRT) planner is used to generate collision-free joint-space trajectories.  
-> Separate plans are generated for the **Home → Pick** and **Pick → Place** motions, which are then concatenated into a single smooth trajectory.
+ This section demonstrates how a Rapidly-exploring Random Tree (RRT) planner is used to generate collision-free joint-space trajectories. Separate plans are generated for the **Home → Pick** and **Pick → Place** motions, which are then concatenated into a single smooth trajectory.
 
 ---
 
